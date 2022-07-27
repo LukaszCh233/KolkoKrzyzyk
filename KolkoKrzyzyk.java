@@ -16,9 +16,7 @@ public class KolkoKrzyzyk {
             boolean ruchPopr = wykRuch(plansza, krzyzyk);
             KolkoKrzyzyk.drukujPlansze(plansza);
             if (ruchPopr) {
-                if (krzyzyk == 'X') {
-                    krzyzyk = 'O';
-                } else krzyzyk = 'X';
+
                 if (plansza[0][0] == 'X' && plansza[0][1] == 'X' && plansza[0][2] == 'X'
                         || plansza[1][0] == 'X' && plansza[1][1] == 'X' && plansza[1][2] == 'X'
                         || plansza[2][0] == 'X' && plansza[2][1] == 'X' && plansza[2][2] == 'X'
@@ -42,9 +40,13 @@ public class KolkoKrzyzyk {
                     break;
                 }
                 else {
-                    System.out.println("REMIS");
 
+                    System.out.println("REMIS");
+                    break;
                 }
+                if (krzyzyk == 'X') {
+                    krzyzyk = 'O';
+                } else krzyzyk = 'X';
 
                 }
             }
