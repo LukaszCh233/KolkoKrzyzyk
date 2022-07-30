@@ -1,8 +1,8 @@
-package Aplikacjapierwsza;
+package Aplikacja;
 
-    import java.util.Scanner;
+import java.util.Scanner;
 
-    public class KolkoKrzyzyk {
+public class KolkoKrzyzyk {
         public static void main(String[] args) {
             Scanner scanner = new Scanner(System.in);
             System.out.println("WITAJ W GRZE");
@@ -13,35 +13,49 @@ package Aplikacjapierwsza;
 
             char[][] plansza = new char[a][b];
 
-            char obecnySymbol = 'X';
+
 
             KolkoKrzyzyk.drukujPlansze(plansza);
+
+
+            char obecnySymbol = getObecnySymbol();
 
 
             while (true) {
                 boolean ruchPopr = wykRuch(plansza, obecnySymbol);
                 KolkoKrzyzyk.drukujPlansze(plansza);
                 if (ruchPopr) {
-                    if (obecnySymbol == 'X') {
-                        obecnySymbol = 'O';
-                    } else obecnySymbol = 'X';
                     boolean wygranaWiersze = sprawdzWiersz(plansza, obecnySymbol);
                     boolean wygranaKolumn = sprawdzKolumny(plansza, obecnySymbol);
                     boolean wygranaSkos = sprawdzSkos(plansza, obecnySymbol);
+
+
                     if (wygranaKolumn || wygranaWiersze || wygranaSkos) {
                         System.out.println("Gratulacje wygral gracz: " + obecnySymbol);
                         break;
                     }
-                }
                     else if (!saRuchy(plansza)) {
                         System.out.println("Jest remis");
                         break;
+                    }
+                    obecnySymbol = ObecnySymbol(obecnySymbol);
+                }
             }
-
         }
 
+    private static char getObecnySymbol() {
+        return '1';
     }
-        public static boolean saRuchy ( char[][] plansza) {
+
+
+    public static char ObecnySymbol(char obecnySymbol) {
+        if (obecnySymbol == getObecnySymbol()) {
+            obecnySymbol = '2';
+        } else obecnySymbol = getObecnySymbol();
+        return obecnySymbol;
+    }
+
+    public static boolean saRuchy ( char[][] plansza) {
             for (int i = 0; i < plansza.length; i++){
                 for (int j = 0; j < plansza.length; j++){
                     if (plansza[i][j] != 'X' && plansza[i][j] != 'O') {
@@ -122,4 +136,3 @@ package Aplikacjapierwsza;
         }
 
     }
-
