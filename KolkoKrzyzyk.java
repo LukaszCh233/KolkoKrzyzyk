@@ -1,80 +1,125 @@
-package Aplikacja;
+package Aplikacjapierwsza;
 
-import java.util.Scanner;
+    import java.util.Scanner;
 
-public class KolkoKrzyzyk {
-    public static void main(String[] args) {
-        char[][] plansza = new char[3][3];
+    public class KolkoKrzyzyk {
+        public static void main(String[] args) {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("WITAJ W GRZE");
+            System.out.println("Podaj rozmiar planszy");
 
-        char krzyzyk = 'X';
+            int a = scanner.nextInt();
+            int b = scanner.nextInt();
 
+            char[][] plansza = new char[a][b];
 
-        System.out.println("WITAJ W GRZE");
-        KolkoKrzyzyk.drukujPlansze(plansza);
+            char obecnySymbol = 'X';
 
-        while (true) {
-            boolean ruchPopr = wykRuch(plansza, krzyzyk);
             KolkoKrzyzyk.drukujPlansze(plansza);
-            if (ruchPopr) {
 
-                if (plansza[0][0] == 'X' && plansza[0][1] == 'X' && plansza[0][2] == 'X'
-                        || plansza[1][0] == 'X' && plansza[1][1] == 'X' && plansza[1][2] == 'X'
-                        || plansza[2][0] == 'X' && plansza[2][1] == 'X' && plansza[2][2] == 'X'
-                        || plansza[0][0] == 'X' && plansza[1][0] == 'X' && plansza[2][0] == 'X'
-                        || plansza[0][1] == 'X' && plansza[1][1] == 'X' && plansza[2][1] == 'X'
-                        || plansza[0][2] == 'X' && plansza[1][2] == 'X' && plansza[2][2] == 'X'
-                        || plansza[0][0] == 'X' && plansza[1][1] == 'X' && plansza[2][2] == 'X'
-                        || plansza[0][2] == 'X' && plansza[1][1] == 'X' && plansza[2][0] == 'X') {
-                    System.out.println("Wygral gracz X");
-                break;
-                }
-                else if (plansza[0][0] == 'O' && plansza[0][1] == 'O' && plansza[0][2] == 'O'
-                        || plansza[1][0] == 'O' && plansza[1][1] == 'O' && plansza[1][2] == 'O'
-                        || plansza[2][0] == 'O' && plansza[2][1] == 'O' && plansza[2][2] == 'O'
-                        || plansza[0][0] == 'O' && plansza[1][0] == 'O' && plansza[2][0] == 'O'
-                        || plansza[0][1] == 'O' && plansza[1][1] == 'O' && plansza[2][1] == 'O'
-                        || plansza[0][2] == 'O' && plansza[1][2] == 'O' && plansza[2][2] == 'O'
-                        || plansza[0][0] == 'O' && plansza[1][1] == 'O' && plansza[2][2] == 'O'
-                        || plansza[0][2] == 'O' && plansza[1][1] == 'O' && plansza[2][0] == 'O'){
-                    System.out.println("Wygral gracz O");
-                    break;
-                }
-                else {
 
-                    System.out.println("REMIS");
-                    break;
+            while (true) {
+                boolean ruchPopr = wykRuch(plansza, obecnySymbol);
+                KolkoKrzyzyk.drukujPlansze(plansza);
+                if (ruchPopr) {
+                    if (obecnySymbol == 'X') {
+                        obecnySymbol = 'O';
+                    } else obecnySymbol = 'X';
+                    boolean wygranaWiersze = sprawdzWiersz(plansza, obecnySymbol);
+                    boolean wygranaKolumn = sprawdzKolumny(plansza, obecnySymbol);
+                    boolean wygranaSkos = sprawdzSkos(plansza, obecnySymbol);
+                    if (wygranaKolumn || wygranaWiersze || wygranaSkos) {
+                        System.out.println("Gratulacje wygral gracz: " + obecnySymbol);
+                        break;
+                    }
                 }
-                if (krzyzyk == 'X') {
-                    krzyzyk = 'O';
-                } else krzyzyk = 'X';
-
-                }
+                    else if (!saRuchy(plansza)) {
+                        System.out.println("Jest remis");
+                        break;
             }
+
         }
 
-    public static boolean wykRuch(char[][] plansza, char symbol) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Twoj ruch " + symbol);
-        System.out.println("Podaj miejsce: ");
-        int a = scanner.nextInt();
-        int b = scanner.nextInt();
-        boolean poprawnyRuch = plansza[a][b] == 0;
-        if (! poprawnyRuch ) {
-            System.out.println("TO POLE JEST ZAJETE");
+    }
+        public static boolean saRuchy ( char[][] plansza) {
+            for (int i = 0; i < plansza.length; i++){
+                for (int j = 0; j < plansza.length; j++){
+                    if (plansza[i][j] != 'X' && plansza[i][j] != 'O') {
+                        return true;
+                    }
+                }
+            }
             return false;
         }
-        plansza[a][b] = symbol;
-        return true;
-    }
-    public static void drukujPlansze(char[][] plansza) {
-        System.out.println("\t0\t1\t2");
-        for (int i = 0;  i < plansza.length; i++){
-            System.out.print(i+": "+"\t");
-            for (int j = 0; j < plansza[i].length; j++) {
+        public  static  boolean sprawdzKolumny (char[][] plansza, char symbol) {
+            for (int kolumna = 0; kolumna < plansza.length; kolumna++) {
+                boolean wygrana = true;
+                for (int wiersz = 0; wiersz < plansza.length; wiersz++) {
+                    if (plansza[wiersz][kolumna] != symbol) {
+                        wygrana = false;
+                        break;
+                    }
+                }
+                if (wygrana) { return true; }
+            }
+            return false;
+        }
+        public  static  boolean sprawdzWiersz (char[][] plansza, char symbol) {
+            for (int wiersz = 0; wiersz < plansza.length; wiersz++) {
+                boolean wygrana = true;
+                for (int kolumna = 0; kolumna < plansza.length; kolumna++) {
+                    if (plansza[wiersz][kolumna] != symbol) {
+                        wygrana = false;
+                        break;
+                    }
+                }
+                if (wygrana) { return true; }
+            }
+            return false;
+        }
+        public static boolean sprawdzSkos(char[][] plansza, char symbol) {
+            for (int i = 0; i < plansza.length; i ++) {
+                if (plansza[i][i] != symbol) {
+                    return false;
+                }
+            }
+            return true;
+        }
 
-                System.out.print(plansza[i][j]+ "\t");
+        public static boolean wykRuch(char[][] plansza, char symbol) {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Twoj ruch " + symbol);
+            System.out.println("Podaj miejsce: ");
+            int a = scanner.nextInt();
+            int b = scanner.nextInt();
+            boolean poprawnyRuch = plansza[a][b] == 0;
+            if (!poprawnyRuch ) {
+                System.out.println("TO POLE JEST ZAJETE");
+                System.out.println("PROBUJ DALEJ");
+                return false;
+
+            }
+            plansza[a][b] = symbol;
+            return true;
+
+        }
+        public static void drukujPlansze(char[][] plansza) {
+            for (int e = 0; e < plansza.length; e++){
+                System.out.print("\t"+ e);
             }
             System.out.println();
+
+            for (int i = 0;  i < plansza.length; i++){
+                System.out.print(i+": "+"\t");
+                for (int j = 0; j < plansza[i].length; j++) {
+
+                    System.out.print(plansza[i][j]+ "\t");
+
+                }
+                System.out.println();
+            }
+
         }
+
     }
-}
+
