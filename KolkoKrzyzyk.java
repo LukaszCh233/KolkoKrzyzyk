@@ -3,6 +3,7 @@ package Aplikacja;
 import java.util.Scanner;
 
 public class KolkoKrzyzyk {
+
         public static void main(String[] args) {
             Scanner scanner = new Scanner(System.in);
             System.out.println("WITAJ W GRZE");
@@ -34,7 +35,7 @@ public class KolkoKrzyzyk {
                         System.out.println("Gratulacje wygral gracz: " + obecnySymbol);
                         break;
                     }
-                    else if (!saRuchy(plansza)) {
+                     else if (!saRuchy(plansza)) {
                         System.out.println("Jest remis");
                         break;
                     }
@@ -43,14 +44,19 @@ public class KolkoKrzyzyk {
             }
         }
 
-    private static char getObecnySymbol() {
+    public static char getObecnySymbol() {
+
         return '1';
+    }
+    public static char getObecnySymbol1() {
+
+        return '2';
     }
 
 
     public static char ObecnySymbol(char obecnySymbol) {
         if (obecnySymbol == getObecnySymbol()) {
-            obecnySymbol = '2';
+            obecnySymbol = getObecnySymbol1();
         } else obecnySymbol = getObecnySymbol();
         return obecnySymbol;
     }
@@ -58,7 +64,7 @@ public class KolkoKrzyzyk {
     public static boolean saRuchy ( char[][] plansza) {
             for (int i = 0; i < plansza.length; i++){
                 for (int j = 0; j < plansza.length; j++){
-                    if (plansza[i][j] != 'X' && plansza[i][j] != 'O') {
+                    if (plansza[i][j] != getObecnySymbol() && plansza[i][j] != getObecnySymbol1()) {
                         return true;
                     }
                 }
